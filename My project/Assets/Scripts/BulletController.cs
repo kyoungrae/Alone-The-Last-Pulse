@@ -19,4 +19,19 @@ public class BulletController : MonoBehaviour
 
         Destroy(gameObject, bulletLifetime);
     }
+
+    // 다른 오브젝트와 충돌했을 때 호출되는 함수
+    void OnCollisionEnter(Collision collision)
+    {
+        // 충돌한 오브젝트에서 HealthBar 컴포넌트 찾기
+        HealthBar healthBar = collision.gameObject.GetComponent<HealthBar>();
+        if (healthBar != null)
+        {
+            // 좀비에게 데미지 주기 (예: 20 데미지)
+            healthBar.TakeDamage(20f);
+        }
+
+        // 총알은 충돌 후 파괴
+        Destroy(gameObject);
+    }
 }
