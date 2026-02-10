@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject bulletPrefab; // 발사할 총알 프리팹
     public Transform firePoint;     // 총알이 발사될 위치 (플레이어의 자식 오브젝트로 설정)
+    public ParticleSystem muzzleFlash; // 총구 화염 파티클 시스템
     public float fireRate = 0.1f;   // 연사 간격 (버튼을 꾹 누르고 있을 때 사용)
     public float moveSpeed = 5f;    // 플레이어 이동 속도
     public Joystick joystick;       // UI 조이스틱 참조
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
         if (finalLookDir != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(finalLookDir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 3f);
         }
     }
 
@@ -85,6 +86,18 @@ public class PlayerController : MonoBehaviour
         if (bulletPrefab != null && firePoint != null)
         {
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Debug.Log("Bullet fired!");
+            
+            // 총구 화염 효과 재생
+            if (muzzleFlash != null)
+            {
+                muzzleFlash.Play();
+                Debug.Log("Muzzle flash played!");
+            }
+            else
+            {
+                Debug.LogWarning("Muzzle Flash is not assigned!");
+            }
         }
         else
         {
