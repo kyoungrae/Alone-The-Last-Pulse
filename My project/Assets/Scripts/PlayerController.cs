@@ -35,7 +35,9 @@ public class PlayerController : MonoBehaviour
         // 조이스틱 입력
         if (joystickInput.sqrMagnitude > 0.0001f)
         {
-            moveDirection += transform.right * joystickInput.x + transform.forward * joystickInput.y;
+            // 조이스틱 방향을 월드 좌표계로 변환하여 이동
+            Vector3 worldMoveDirection = new Vector3(joystickInput.x, 0f, joystickInput.y);
+            moveDirection += worldMoveDirection;
         }
 
         // 키보드 입력 (WASD / 방향키)
